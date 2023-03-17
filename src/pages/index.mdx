@@ -1,0 +1,581 @@
+---
+title: Sako Language Cheatsheet
+layout: ../layouts/Layout.astro
+---
+
+import Cards from "../components/Cards.astro";
+import Card from "../components/Card.astro";
+
+<Cards title="Syntax">
+
+<Card title="Identifiers">
+```
+x
+sprawaWielbłąda
+PrzypadekPascala
+abc123
+```
+
+Identifiers can't contain underscores.
+
+</Card>
+
+<Card title="Statements">
+
+```
+czytaj: n
+x = f(n) + 1
+drukuj(5.0): n, x
+```
+
+Statements are separated by newlines.
+
+</Card>
+
+<Card title="Numbers">
+
+```
+1962
++1962
+01962
+-27
+1962.
+1962.00
+3.14
++3.14
+3.1400
+03.1400
+-0.3140
+-.314
++2.18E 4
+-2.18E-2
++.218E+2
+```
+
+</Card>
+
+<Card title="Expressions">
+```
+2 * 3  --> to the power of
+2 ♢ 4  --> multiply
+8 / 2  --> divide
+X = (3 ♢ 0.5 * 2 - 4.27) ♢ 0.127
+```
+
+A minus sign cannot appear after an operator.
+
+```
+5 ♢ (-7)  --> ok
+```
+
+</Card>
+
+<Card title="Standard functions">
+
+```
+sin(x)
+cos(x)
+tg(x)
+asn(x)
+acs(x)
+atg(x)
+pwk(x)  --> square root
+pws(x)  --> cubic root
+ln(x)   --> natural logarithm
+exp(x)  --> natural exponent
+abs(x)  --> absolute value
+ent(x)  --> integer part
+div(n, m)  --> integer part of n / m
+mod(n, m)  --> remainder of n / m
+```
+
+</Card>
+
+<Card title="Variables">
+
+```
+U = 0.3
+V = -4
+Y = 2.7
+X = 5 ♢ U * 2 - V
+Z = (X*2 + Y*2) / 2 - 2 ♢ (X-Y)*2
+```
+
+</Card>
+
+</Cards>
+
+<Cards title="Input/output">
+
+<Card title="Reading numbers">
+
+```
+czytaj: a, b, c
+```
+
+</Card>
+
+<Card title="Numbers">
+
+```
+drukuj(5): 1     
+  --> +␣␣␣␣1, for integers only
+drukuj(5.2): 1.  
+  --> +␣␣␣␣1.00
+drukuj(2.1): 999.99       
+  --> +99.9
+drukuj(3.4, 5): 999.9999
+  --> +999.9999
+drukuj(3.4, 5): 9999.999
+  --> +9.9999E+4␣␣␣␣␣
+drukuj()
+```
+
+`drukuj(3.4, 5)` works like `drukuj(3.4)`, unless the number does not fit, in which case the number is printed in scientific notation with 5 significant digits. Printed number will take `3 + 4 + 8` (8 is a constant) columns.
+
+</Card>
+
+<Card title="Text">
+
+```
+tekst:
+Hello, world!
+```
+
+</Card>
+
+<Card title="Whitespace">
+
+```
+spacja 5
+  --> 5 spaces
+linia 3
+  --> 3 newline characters
+```
+
+</Card>
+
+</Cards>
+
+<Cards title="Subroutines">
+
+<Card title="Single return value">
+
+```
+cztery = suma(2, 2)
+osiem = suma(2, 2) + 4
+
+podprogram: suma(a, b)
+  suma() = a + b
+wróć
+```
+
+Subroutines must be defined after all operations in the program.
+
+Subroutines must have at least one argument. Result must be assigned in the last statement.
+
+</Card>
+
+<Card title="Multiple return values">
+
+```
+(r, s) = trans(p, q, beta)
+
+podprogram: (u, v) = trans(x, y, alfa)
+  u = x ♢ cos(alfa) + y ♢ sin(alfa)
+  v = y ♢ cos(alfa) - x ♢ sin(alfa)
+wróć
+```
+
+</Card>
+
+<Card title="Writing results to a block">
+
+```
+blok(5): u, v, t
+czytaj: *u, *v
+(*t) = su(*u, *v, 5)
+```
+
+```
+podprogram: (*r) = su(*x, *y, n)
+  całkowite: n, i
+  struktura(n): r, x, y
+  *) r(i) = x(i) + y(i)
+  powtórz: i = 0 (1) n
+wróć
+```
+
+</Card>
+
+<Card title="Partial application">
+
+```
+podstaw: plus(10, .)
+x = plus(., 5)    --> 15
+podstaw: plus(10, 5)
+z = plus(.)       --> 15
+
+podprogram: plus(x, y)
+  plus() = x + y
+wróć
+```
+
+</Card>
+
+<Card title="Using a subroutine as an argument">
+
+```
+podstaw: plus(., 1)
+x = złóż(plus(), plus(), 10)  --> 12
+
+podprogram: złóż(f(), g(), x)
+  złóż() = f(g(x))
+wróć
+podprogram: plus(x, y)
+  plus() = x + y
+wróć
+```
+
+`f()` is a reference to a subroutine and does not execute it (subroutines can't have zero arguments).
+
+</Card>
+
+</Cards>
+
+<Cards title="Flow control">
+
+<Card title="Conditional jump">
+
+```
+   gdy b > s: następny, inaczej 1
+   s = b
+
+1) gdy c > s: następny, inaczej 2
+   s = c
+2) drukuj(5.5): s
+```
+
+The only allowed operators are `>` and `=`. `następny` means no jump.
+
+</Card>
+
+<Card title="Unconditional jump">
+
+```
+   gdy a > 0: następny, inaczej 5
+   s = a
+   skocz do 6
+1) s = -a
+2) z = 0
+```
+
+</Card>
+
+<Card title="Repeat loop">
+
+```
+*) y = pwk(1 - x _ 2)
+   drukuj(5.5): y
+powtórz: x = 0.2 (0.2) 0.8
+```
+
+The syntax is `start (step) stop`.
+
+```
+**) s = s + A(i, j)
+  powtórz: j = 0 (1) 3
+powtórz: i = 0 (1) 2
+```
+
+A jump from the loop to the outside stops the loop. A jump from outside the loop into the loop is not allowed.
+
+</Card>
+
+<Card title="Chapters">
+
+```
+rozdział: 1
+  tekst:
+    w rozdziale 1
+idź do rozdziału 2
+
+rozdział: 2
+  tekst:
+    w rozdziale 2
+
+stop następny
+koniec: 1
+```
+
+The program will begin execution in chapter 1, and jump to chapter 2. The number given to `koniec` is the identifier of the first chapter that will be run.
+
+Code before the first chapter declaration is chapter 0.
+
+</Card>
+
+<Card title="Stop the execution">
+
+```
+stop następny
+```
+
+</Card>
+
+</Cards>
+
+
+<Cards title="Indexed variables / blocks">
+
+<Card title="Declaration">
+
+```
+blok(99): A --> indices 0 to 99, 100 elements
+blok(2, 3): M
+```
+
+Blocks have a fixed number of elements, but can be dynamically reshaped:
+
+```
+czytaj: n
+struktura(n): A
+struktura(12): M
+struktura(3, 2): M
+```
+
+</Card>
+
+<Card title="Referencing">
+
+```
+czytaj: *A, *M
+f(A, M)
+```
+
+Note: `czytaj` with a block will read numbers until an `*` character in the input.
+
+</Card>
+
+<Card title="Accessing elements">
+
+```
+czytaj: A(0), A(99), M(1, 2)
+```
+
+</Card>
+
+<Card title="Using in subroutines">
+
+Subroutines don't know what shape is the block they receive, so it must be given a shape using `struktura`.
+
+```
+blok(2): u, v
+x = iloczyn(u, v)
+
+podprogram: iloczyn(*u, *v)
+  struktura(2): u, v
+  iloczyn() = u(0) ^ v(0) + u(1) ^ v(1) + u(2) ^ v(2)
+wróć
+```
+
+</Card>
+
+</Cards>
+
+<Cards title="Integers">
+
+<Card title="Declaration">
+
+All variables, arguments, and return values are real by default, they must be declared integer, before first use.
+Traditionally, reals are the size of two memory words, and integers of one.
+
+```
+całkowite: a, b, c
+a = 1
+b = -3
+c = 2
+```
+
+</Card>
+
+<Card title="Type conversion">
+
+Integers are implicitly converted into reals.
+
+Reals are not implicitly converted into integers. The result of `a / b`, `1.0`, etc. is a real, and must be converted into an integer with `ent(x)` before any use as an integer.
+
+</Card>
+
+<Card title="Subroutines returning integers">
+
+```
+całkowite: silnia
+x = silnia(2)
+
+podprogram: silnia(k)
+całkowite: silnia, k
+silnia() = k
+wróć
+```
+
+The subroutine must be declared as returning an integer both outside and inside itself.
+
+</Card>
+
+</Cards>
+
+<Cards title="Program structure">
+
+<Card title="Lead">
+
+```
+wyjście: 0=pdw(dw,ddw1);
+problem: sako, program, program.
+
+niweluj nadmiary: tak
+translacja
+```
+
+`wyjście:` is legacy syntax and will be ignored. `problem` tells the computer what to do: use `sako` to compile the code, and then run the program as many times as the word `program` appears.
+
+`niweluj nadmiary: tak` (*stop overflows: yes*) tells the computer to ignore number overflows and clamp values to allowed ranges.
+
+`translacja` begins the Sako code.
+
+</Card>
+
+<Card title="Data section">
+
+After `koniec: ...`, lines until the end of file are the data section. In each line, everything up to the `=` or `:` character is ignored. When program attempts to read numbers, it will first go through the numbers in the data section. If it attempts to read a block, it will go through the numbers until an asterisk.
+
+```
+--> ...
+koniec: 0
+
+dane:
+a = 1.
+b = -3.
+c = 2.5
+_a = 1. 2. 3. _
+```
+
+</Card>
+
+<Card title="Example complete program">
+
+```
+wyjście: 0=pdw(dw,ddw1);
+problem: sako,program.
+
+niweluj nadmiary: tak
+translacja
+
+czytaj: K
+I1 = całka(0.0, 1.0, G())
+podstaw: H(., K)
+I2 = całka(0.5, 1.0, H())
+linia 1
+drukuj(3.5): I1, I2
+stop następny
+
+podprogram: całka(A, B, F())
+  DX = (B - A) / 8
+  S = 0
+  *) S = S + F(X)
+  powtórz: X = A (DX) B
+  całka() = (B - A) ♢ S / 9
+wróć
+
+podprogram: G(X)
+  G() = pwk(1 - X * 3)
+wróć
+
+podprogram: H(X, K)
+  H() = pwk(1 - K ♢ sin(X) * 2)
+wróć
+koniec: 0
+
+0.5
+```
+
+</Card>
+
+</Cards>
+
+<Cards title="Reference">
+
+<Card title="All directives">
+
+```
+rozdział: 1
+podprogram: sh(x)
+podprogram: długość(x, y, u, v)
+podprogram: f(x, *A)
+podprogram: całka(a, b, f())
+podprogram: (a, *b) = f(c, *D, e(), f)
+wróć
+
+koniec: 0
+koniec: 57
+idź do rozdziału: 2
+
+całkowite: a, b, c, *D, *E
+blok(0): a, b, c
+blok(10): a, b, c
+struktura(2): u, v
+struktura(2, 3): a, b, c
+struktura(m, n): a, b
+
+czytaj: a, *b, c
+linia 2
+spacja 5
+spacja n
+drukuj(2): n, i
+drukuj(5.2): x, y, z
+drukuj(2.3,4): x, y, z
+
+tekst:
+drukowanie wyników
+
+skocz do 6
+
+gdy a > b: 5, inaczej 6
+gdy a > b: następny, inaczej 6
+gdy a = b: 5, inaczej 6
+gdy a = b: 5, inaczej następny
+
+powtórz: x = 0.2 (0.2) 0.8
+powtórz: i = 0 (1) 9
+
+stop następny
+```
+
+  </Card>
+
+<Card title="Runtime errors">
+
+```
+ZZ --> float division by zero
+ZP --> float overflow
+ZW --> float underflow
+PA --> out of memory to allocate chapter
+RB --> illegal chapter identifier
+RN --> no such chapter
+BD --> illegal print format
+PC --> illegal print
+NC --> input too short
+EX --> illegal exp() argument
+LN --> illegal ln() argument
+BK --> input too long
+BC --> incorrect input
+IL --> illegal block size
+NG --> input has a block instead of a number
+DK --> float exponent overflow
+UW --> illegal exponent
+AC --> illegal acs() or asn() argument
+TG --> illegal tg() argument
+```
+
+</Card>
+
+</Cards>

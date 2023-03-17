@@ -1,0 +1,13 @@
+---
+let { title } = Astro.props;
+---
+
+<h2
+  class="text-md flex overflow-hidden font-bold pt-12 italic after:content-[''] after:inline-block after:flex-grow after:border-b-2 after:border-slate-800 after:ml-2 after:h-[.9em]"
+>
+  {title}
+</h2>
+
+<div class="columns-[320px]">
+  <slot />
+</div>

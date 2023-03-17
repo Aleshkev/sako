@@ -1,0 +1,36 @@
+---
+export interface Props {
+  title: string;
+  body: string;
+}
+
+const { title, body } = Astro.props;
+---
+
+<div class="break-inside-avoid-column">
+  <h2 class="text-base pb-2 pt-4 font-semibold">
+    {title}
+  </h2>
+  <div
+    class="bg-rose-100/10 rounded-md ring-1 ring-slate-300 shadow overflow-hidden flex flex-grow flex-col backdrop-blur-lg text-sm"
+  >
+    <slot />
+  </div>
+</div>
+
+<style is:global>
+  p {
+    @apply p-4;
+  }
+  p + p {
+    @apply pt-0;
+  }
+
+  h3 {
+    @apply text-xs italic;
+  }
+
+  pre {
+    @apply bg-white ring-1 ring-stone-300 m-0 block p-4;
+  }
+</style>
